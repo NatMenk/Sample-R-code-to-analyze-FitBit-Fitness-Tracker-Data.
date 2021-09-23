@@ -1,0 +1,47 @@
+Sample R code exploring FitBit Fitness Tracker Data: from Kaggle.com
+
+## Installing Packages and setting the environment:
+install.packages('tidyverse')
+library("tidyverse")
+
+## Loading csv files from the data set and exploring a few key tables 
+sleep_day <- read.csv("sleepDay_merged.csv")
+View(sleep_day)
+head(sleep_day)
+daily_activity <- read.csv("dailyActivity_merged.csv")
+View(daily_activity)
+head(daily_activity)
+colnames(daily_activity)
+colnames(sleep_day)
+## Both tables have Id column
+
+##Exploring some summary statistics:
+##How many unique participants are there in each data frame? It looks like there may be more participants in the daily activity dataset than the sleep dataset.
+n_distinct(daily_activity$Id)
+n_distinct(sleep_day$Id)
+
+##How many observations are there in each data frame?
+nrow(daily_activity)
+nrow(sleep_day)
+##What are some quick summary statistics we'd want to know about each data frame?
+##For the daily activity dataframe:
+daily_activity %>%  
+  select(TotalSteps,
+         TotalDistance,
+         SedentaryMinutes) %>%
+  summary()
+## And for Sleep dataframe:
+sleep_day %>%  
+  select(TotalSleepRecords,
+         TotalMinutesAsleep,
+         TotalTimeInBed) %>%
+  summary()
+##Plotting a few explorations
+##What's the relationship between steps taken in a day and sedentary minutes? How could this help inform the customer segments that we can market to? E.g. position this more as a way to get started in walking more? Or to measure steps that you're already taking?
+ggplot(data=daily_activity, aes(x=TotalSteps, y=SedentaryMinutes)) + geom_point()
+##What's the relationship between minutes asleep and time in bed? You might expect it to be almost completely linear - are there any unexpected trends?
+ggplot(data=sleep_day, aes(x=TotalMinutesAsleep, y=TotalTimeInBed)) + geom_point()
+## Merging these two datasets together: 
+combined_data <- merge(sleep_day, daily_activity, by="Id")
+n_distinct(combined_data$Id)
+##Note that there were more participant Ids in the daily activity dataset that have been filtered out using merge. 
