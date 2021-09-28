@@ -1,4 +1,5 @@
-Sample R code exploring FitBit Fitness Tracker Data: from Kaggle.com
+## In this project we analyze smart device (fitness tracker) data to gain insight into how consumers are using their smart devices.
+## Sample R code exploring FitBit Fitness Tracker Data: from Kaggle.com.
 
 ## Installing Packages and setting the environment:
 install.packages('tidyverse')
